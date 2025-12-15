@@ -79,10 +79,4 @@ java Main
 * Payment status is stored as Pending by default
 * All data is stored locally in text files
 
-## Author
-
-Ahsan Raza
-
----
-
 This project is suitable for academic submission and basic Java CLI practice.
