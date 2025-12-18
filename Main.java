@@ -41,14 +41,18 @@ public class Main {
     // Method to safely get integer input with exception handling
     static int getIntInput() {
         while (true) {
+            String line = scanner.nextLine().trim(); // read whole line and trim spaces
+    
+            if (line.isEmpty()) {
+                System.out.print("Input cannot be empty! \nEnter a number: ");
+                continue;
+            }
+    
             try {
-                int input = scanner.nextInt();
-                scanner.nextLine(); 
+                int input = Integer.parseInt(line); // parse integer
                 return input;
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input! Please enter a number.");
-                scanner.nextLine(); 
-                System.out.print("Enter again: ");
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input! Please enter a valid number: ");
             }
         }
     }

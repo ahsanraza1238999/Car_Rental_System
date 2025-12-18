@@ -1,0 +1,10 @@
+Customer: fcfce
+Car: Honda Accord
+Days: 4
+Cost: PKR 19000.0
+-------------------
+Customer: rvr
+Car: Ford Mustang
+Days: 5
+Cost: PKR 40375.0
+-------------------
