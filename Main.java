@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Main {
     
@@ -20,8 +21,7 @@ public class Main {
             System.out.println("4. Exit");
             System.out.print("Enter choice: ");
             
-            int choice = scanner.nextInt();
-            scanner.nextLine(); 
+            int choice = getIntInput();
             
             if (choice == 1) {
                 viewCars();
@@ -33,7 +33,22 @@ public class Main {
                 System.out.println("Thank you! Goodbye!");
                 break;
             } else {
-                System.out.println("Invalid choice!");
+                System.out.println("Invalid choice! Please enter 1-4.");
+            }
+        }
+    }
+    
+    // Method to safely get integer input with exception handling
+    static int getIntInput() {
+        while (true) {
+            try {
+                int input = scanner.nextInt();
+                scanner.nextLine(); 
+                return input;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.nextLine(); 
+                System.out.print("Enter again: ");
             }
         }
     }
@@ -58,10 +73,9 @@ public class Main {
     static boolean viewAvailableCars() {
         System.out.println("\n===== AVAILABLE CARS =====");
         
-        boolean anyAvailable = false; // Track if any car is available
+        boolean anyAvailable = false; 
         
         for (int i = 0; i < carModels.length; i++) {
-            // Only show if car is available
             if (carAvailable[i]) {
                 System.out.print((i + 1) + ". " + carModels[i]);
                 System.out.println(" - PKR " + carRates[i] + "/day [AVAILABLE]");
@@ -74,7 +88,7 @@ public class Main {
             System.out.println("Sorry, no cars available right now.");
         }
 
-        return anyAvailable ? true : false;
+        return anyAvailable;
     }
     
     // Method to rent a car
@@ -87,12 +101,11 @@ public class Main {
         }
         
         System.out.print("\nEnter car number (1-5): ");
-        int carNumber = scanner.nextInt();
-        scanner.nextLine(); 
+        int carNumber = getIntInput();
         
         // Check if valid car number
         if (carNumber < 1 || carNumber > 5) {
-            System.out.println("Invalid car number!");
+            System.out.println("Invalid car number! Please enter 1-5.");
             return;
         }
         
@@ -108,9 +121,22 @@ public class Main {
         System.out.print("Enter your name: ");
         String customerName = scanner.nextLine();
         
+        // Validate name is not empty
+        while (customerName.trim().isEmpty()) {
+            System.out.println("Name cannot be empty!");
+            System.out.print("Enter your name: ");
+            customerName = scanner.nextLine();
+        }
+        
         System.out.print("Enter number of days: ");
-        int days = scanner.nextInt();
-        scanner.nextLine(); 
+        int days = getIntInput();
+        
+        // Validate days is positive
+        while (days <= 0) {
+            System.out.println("Days must be greater than 0!");
+            System.out.print("Enter number of days: ");
+            days = getIntInput();
+        }
         
         // Calculate cost with discount
         double totalCost = calculateCost(carRates[index], days);
@@ -165,16 +191,11 @@ public class Main {
         }
         
         System.out.print("\nEnter car number to return (1-5): ");
-        int carNumber = scanner.nextInt();
-        scanner.nextLine();
-        
-        // Get customer name
-        System.out.print("Enter your name: ");
-        String customerName = scanner.nextLine();
+        int carNumber = getIntInput();
         
         // Check if valid car number
         if (carNumber < 1 || carNumber > 5) {
-            System.out.println("Invalid car number!");
+            System.out.println("Invalid car number! Please enter 1-5.");
             return;
         }
         
@@ -184,6 +205,17 @@ public class Main {
         if (carAvailable[index]) {
             System.out.println("This car was not rented!");
             return;
+        }
+        
+        // Get customer name
+        System.out.print("Enter your name: ");
+        String customerName = scanner.nextLine();
+        
+        // Validate name is not empty
+        while (customerName.trim().isEmpty()) {
+            System.out.println("Name cannot be empty!");
+            System.out.print("Enter your name: ");
+            customerName = scanner.nextLine();
         }
         
         // Mark car as available
